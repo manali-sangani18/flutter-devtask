@@ -1,7 +1,12 @@
-
+import 'package:canvas/provider/drawing_provider.dart';
+import 'package:canvas/screen/drawing_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const DrawingApp());
 }
 
@@ -10,13 +15,17 @@ class DrawingApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Collaborative Drawing',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        useMaterial3: true,
+    return ChangeNotifierProvider(
+      create: (_) => DrawingProvider(),
+      child: MaterialApp(
+        title: 'Collaborative Drawing',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          useMaterial3: true,
+        ),
+        home: const DrawingScreen(),
       ),
-      home: const DrawingScreen(),
     );
   }
 }
